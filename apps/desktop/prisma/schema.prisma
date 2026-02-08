@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id
+  email             String    @unique
+  name              String?
+  licenseTier       String    @default("free")
+  licenseKey        String?
+  licenseValidUntil DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  watchlists       Watchlist[]
+  workspaceLayouts WorkspaceLayout[]
+}
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User            @relation(fields: [userId], references: [id])
+  items WatchlistItem[]
+}
+
+model WatchlistItem {
+  id          String   @id @default(cuid())
+  symbol      String
+  name        String
+  watchlistId String
+  addedAt     DateTime @default(now())
+
+  watchlist Watchlist @relation(fields: [watchlistId], references: [id], onDelete: Cascade)
+
+  @@unique([watchlistId, symbol])
+}
+
+model WorkspaceLayout {
+  id         String   @id @default(cuid())
+  name       String
+  layoutData String   // Serialized Dockview layout JSON
+  isDefault  Boolean  @default(false)
+  userId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model CachedBar {
+  id        String   @id @default(cuid())
+  symbol    String
+  timeframe String
+  timestamp DateTime
+  open      Float
+  high      Float
+  low       Float
+  close     Float
+  volume    Float
+  vwap      Float?
+  createdAt DateTime @default(now())
+
+  @@unique([symbol, timeframe, timestamp])
+  @@index([symbol, timeframe])
+}

@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
+  --color-border: #30363d;
+  --color-text: #e6edf3;
+  --color-muted: #8b949e;
+  --color-accent: #58a6ff;
+  --color-gain: #3fb950;
+  --color-loss: #f85149;
+  --color-warning: #d29922;
+  --color-surface-hover: #1c2128;
+  --color-glow-accent: rgba(88, 166, 255, 0.15);
+  --color-glow-gain: rgba(63, 185, 80, 0.15);
+  --color-glow-loss: rgba(248, 81, 73, 0.15);
+}
+
+@layer base {
+  * {
+    @apply border-terminal-border;
+  }
+
+  body {
+    @apply bg-terminal-bg text-terminal-text font-sans;
+    font-feature-settings: 'tnum' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-muted);
+  }
+
+  /* Tabular numbers for financial data */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+}
+
+/* Dockview overrides */
+.dv-dockview {
+  --dv-group-view-background-color: var(--color-bg);
+  --dv-tabs-and-actions-container-background-color: var(--color-surface);
+  --dv-activegroup-visiblepanel-tab-background-color: var(--color-bg);
+  --dv-activegroup-hiddenpanel-tab-background-color: var(--color-surface);
+  --dv-inactivegroup-visiblepanel-tab-background-color: var(--color-surface);
+  --dv-inactivegroup-hiddenpanel-tab-background-color: var(--color-surface);
+  --dv-tab-divider-color: var(--color-border);
+  --dv-activegroup-visiblepanel-tab-color: var(--color-text);
+  --dv-activegroup-hiddenpanel-tab-color: var(--color-muted);
+  --dv-inactivegroup-visiblepanel-tab-color: var(--color-muted);
+  --dv-inactivegroup-hiddenpanel-tab-color: var(--color-muted);
+  --dv-separator-border: var(--color-border);
+  --dv-paneview-header-border-color: var(--color-border);
+}
+
+.dv-dockview .tab {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0 12px;
+}
+
+/* Price flash animations */
+.price-up {
+  animation: flashGreen 0.6s ease-out;
+}
+
+.price-down {
+  animation: flashRed 0.6s ease-out;
+}
+
+@keyframes flashGreen {
+  0% { background-color: rgba(63, 185, 80, 0.3); }
+  100% { background-color: transparent; }
+}
+
+@keyframes flashRed {
+  0% { background-color: rgba(248, 81, 73, 0.3); }
+  100% { background-color: transparent; }
+}
+
+/* Glow effects */
+.glow-accent {
+  box-shadow: 0 0 20px var(--color-glow-accent);
+}
+
+.glow-gain {
+  box-shadow: 0 0 12px var(--color-glow-gain);
+}
+
+.glow-loss {
+  box-shadow: 0 0 12px var(--color-glow-loss);
+}

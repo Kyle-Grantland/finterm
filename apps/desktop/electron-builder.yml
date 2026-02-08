@@ -1,0 +1,36 @@
+appId: com.finterm.app
+productName: FinTerm
+directories:
+  buildResources: resources
+  output: dist
+files:
+  - out/**/*
+  - "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}"
+  - "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+  - "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+  - "!**/node_modules/.cache"
+extraResources:
+  - from: prisma/
+    to: prisma/
+    filter:
+      - "**/*"
+win:
+  target:
+    - nsis
+  icon: resources/icon.ico
+mac:
+  target:
+    - dmg
+    - zip
+  icon: resources/icon.icns
+  entitlementsInherit: build/entitlements.mac.plist
+linux:
+  target:
+    - AppImage
+    - deb
+  icon: resources/
+  category: Finance
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
